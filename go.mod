@@ -1,4 +1,4 @@
-module github.com/cosmos/ibc-go/simapp
+module github.com/unicorn-research/chain
 
 go 1.23.8
 
