@@ -7,7 +7,7 @@ A good phone with:
 
 Would be the core of a nation of sovereigns who fulfill the requirements recognized in U.S. and International law as legitimate. 
 
-Terms of service reflect the tenets of that nation. Make the tenets of said nation are:
+Terms of service reflect the tenets of that nation. The tenets of said nation are:
 
 1) innocent until proven guilty
 2) property rights shall not be infringed upon
