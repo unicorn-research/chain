@@ -6,7 +6,7 @@ Chain is based on the ibc-go `SimApp`, and always will be.  This will allow team
 * IBC-GO
 * Comet-BFT
 
-in an approchable and minimal format.
+in an approchable and minimal format.  We're also satisfying a [the spec requirements for a wyoming dao](https://sos.wyo.gov/Forms/WyoBiz/DAO_Supplement.pdf).  
 
 `Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
 
