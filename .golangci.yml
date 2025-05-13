@@ -1,7 +1,7 @@
 version: "2"
 run:
   tests: true
-  allow-parallel: true
+  allow-parallel-runners: true
 linters:
   default: all
   enable:
