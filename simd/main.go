@@ -3,12 +3,12 @@ package main
 import (
 	"os"
 
+	simapp "github.com/unicorn-research/chain"
+	"github.com/unicorn-research/chain/chaind/cmd"
+
 	"cosmossdk.io/log"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
-
-	simapp "github.com/unicorn-research/chain"
-	"github.com/unicorn-research/chain/chaind/cmd"
 )
 
 func main() {

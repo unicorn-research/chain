@@ -8,6 +8,8 @@ import (
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	simapp "github.com/unicorn-research/chain"
+	"github.com/unicorn-research/chain/params"
 
 	"cosmossdk.io/client/v2/autocli"
 	"cosmossdk.io/log"
@@ -38,9 +40,6 @@ import (
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
 	cmtcfg "github.com/cometbft/cometbft/config"
-
-	simapp "github.com/unicorn-research/chain"
-	"github.com/unicorn-research/chain/params"
 )
 
 // NewRootCmd creates a new root command for simd. It is called once in the

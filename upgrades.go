@@ -1,14 +1,14 @@
 package simapp
 
 import (
+	"github.com/unicorn-research/chain/upgrades"
+
 	storetypes "cosmossdk.io/store/types"
 	circuittypes "cosmossdk.io/x/circuit/types"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 
 	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
-
-	"github.com/unicorn-research/chain/upgrades"
 )
 
 // registerUpgradeHandlers registers all supported upgrade handlers

@@ -5,12 +5,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	simapp "github.com/unicorn-research/chain"
+	"github.com/unicorn-research/chain/chaind/cmd"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
-	simapp "github.com/unicorn-research/chain"
-
-	"github.com/unicorn-research/chain/chaind/cmd"
 )
 
 func TestInitCmd(t *testing.T) {
