@@ -3,6 +3,8 @@ run:
   tests: true
 linters:
   default: all
+  enable:
+    - maintidx
   disable:
     - containedctx
     - contextcheck
