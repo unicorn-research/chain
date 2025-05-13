@@ -1,0 +1,139 @@
+version: "2"
+run:
+  tests: true
+linters:
+  default: none
+  enable:
+    - errcheck
+    - goconst
+    - gocritic
+    - gosec
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - revive
+    - staticcheck
+    - thelper
+    - unconvert
+    - unparam
+    - unused
+  settings:
+    gocritic:
+      disabled-checks:
+        - appendAssign
+    gosec:
+      excludes:
+        - G101
+        - G107
+        - G115
+        - G404
+      confidence: medium
+    revive:
+      enable-all-rules: true
+      rules:
+        - name: redundant-import-alias
+          disabled: true
+        - name: use-any
+          disabled: true
+        - name: if-return
+          disabled: true
+        - name: max-public-structs
+          disabled: true
+        - name: cognitive-complexity
+          disabled: true
+        - name: argument-limit
+          disabled: true
+        - name: cyclomatic
+          disabled: true
+        - name: file-header
+          disabled: true
+        - name: function-length
+          disabled: true
+        - name: function-result-limit
+          disabled: true
+        - name: line-length-limit
+          disabled: true
+        - name: flag-parameter
+          disabled: true
+        - name: add-constant
+          disabled: true
+        - name: empty-lines
+          disabled: true
+        - name: banned-characters
+          disabled: true
+        - name: deep-exit
+          disabled: true
+        - name: confusing-results
+          disabled: true
+        - name: unused-parameter
+          disabled: true
+        - name: modifies-value-receiver
+          disabled: true
+        - name: early-return
+          disabled: true
+        - name: confusing-naming
+          disabled: true
+        - name: defer
+          disabled: true
+        - name: unused-parameter
+          disabled: true
+        - name: unhandled-error
+          arguments:
+            - fmt.Printf
+            - fmt.Print
+            - fmt.Println
+            - myFunction
+          disabled: false
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - revive
+        text: differs only by capitalization to method
+      - linters:
+          - gosec
+        text: Use of weak random number generator
+      - linters:
+          - gosec
+        text: 'G115: integer overflow conversion'
+      - linters:
+          - staticcheck
+        text: 'SA1019:'
+      - linters:
+          - gosec
+        text: 'G115: integer overflow conversion'
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-issues-per-linter: 10000
+  max-same-issues: 10000
+formatters:
+  enable:
+    - gci
+    - gofumpt
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - blank
+        - dot
+        - prefix(cosmossdk.io)
+        - prefix(github.com/cosmos/cosmos-sdk)
+        - prefix(github.com/cometbft/cometbft)
+        - prefix(github.com/cosmos/ibc-go)
+      custom-order: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

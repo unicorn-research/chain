@@ -1,8 +1,8 @@
 # `Unicorn`
 
-Unicorn is based on the ibc-go `SimApp`.  `Unicron` is a CLI application built using the Cosmos SDK for testing and educational purposes.
+Unicorn is based on the ibc-go `SimApp`.  `Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
 
-## Running Testnets with `simd`
+## Running Testnets with `chain`
 
 Want to spin up a quick testnet with your friends? Follow these steps. Unless stated otherwise, all participants in the testnet must follow through with each step.
 
