@@ -1,6 +1,14 @@
-# `Unicorn`
+# `Chain`
 
-Unicorn is based on the ibc-go `SimApp`.  `Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
+Chain is based on the ibc-go `SimApp`, and always will be.  This will allow teams to test the latest and greatest of:
+
+* Cosmos-SDK
+* IBC-GO
+* Comet-BFT
+
+in an approchable and minimal format.
+
+`Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
 
 ## Running Testnets with `chain`
 
