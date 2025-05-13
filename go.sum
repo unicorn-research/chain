@@ -638,8 +638,8 @@ cosmossdk.io/tools/confix v0.2.0-rc.2 h1:AqY8QwX+R2gBl6xVSskE82E40ZBUrnJqgkaYOPn
 cosmossdk.io/tools/confix v0.2.0-rc.2/go.mod h1:cZ+NfJ7VocFoRNpfSkcOdHO8jA1B4kr4aeNL69OJccQ=
 cosmossdk.io/x/circuit v0.2.0 h1:RJPMBQWCQU77EcM9HDTBnqRhq21fcUxgWZl7BZylJZo=
 cosmossdk.io/x/circuit v0.2.0/go.mod h1:CjiGXDeZs64nMv0fG+QmvGVTcn7n3Sv4cDszMRR2JqU=
-cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:rzuk0k7QsNRw2TQJjoRkzrSXzqjSx/tdYWoGp3nZLPA=
-cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:YZgB+D20jEv2QA+wZ+kjn2V+PXvzwYI/5/w7F9Q9qtY=
+cosmossdk.io/x/evidence v0.2.0 h1:o72zbmgCM7U0v7z7b0XnMB+NqX0tFamqb1HHkQbhrZ0=
+cosmossdk.io/x/evidence v0.2.0/go.mod h1:zx/Xqy+hnGVzkqVuVuvmP9KsO6YCl4SfbAetYi+k+sE=
 cosmossdk.io/x/feegrant v0.2.0 h1:oq3WVpoJdxko/XgWmpib63V1mYy9ZQN/1qxDajwGzJ8=
 cosmossdk.io/x/feegrant v0.2.0/go.mod h1:9CutZbmhulk/Yo6tQSVD5LG8Lk40ZAQ1OX4d1CODWAE=
 cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5 h1:HBuHIfYMiI04Qup+aZMo9FAPSjpBZA6opeCuKRBGafA=
