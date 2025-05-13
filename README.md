@@ -10,7 +10,7 @@ in an approchable and minimal format.  We're also satisfying a [the spec require
 
 `Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
 
-## Wyoming DAO Compliance
+## Wyoming DAO Compatibility
 
 Chain implements a Wyoming DAO. 
 
