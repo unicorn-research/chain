@@ -16,7 +16,7 @@ require (
 	cosmossdk.io/tools/confix v0.1.3-0.20250506131703-74993f0a47e5
 	cosmossdk.io/x/circuit v0.2.0-rc.2.0.20250506131703-74993f0a47e5
 	cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5
-	cosmossdk.io/x/feegrant v0.2.0-rc.2.0.20250506131703-74993f0a47e5
+	cosmossdk.io/x/feegrant v0.2.0
 	cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5
 	cosmossdk.io/x/upgrade v0.2.0-rc.2.0.20250506131703-74993f0a47e5
 	github.com/cometbft/cometbft v1.0.1

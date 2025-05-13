@@ -640,8 +640,8 @@ cosmossdk.io/x/circuit v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:bJTjw0YmUPG4
 cosmossdk.io/x/circuit v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:N2r3r78d1bzrjCWQxwUgyjJLxjFVsxY2HIcWv3PeZvA=
 cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:rzuk0k7QsNRw2TQJjoRkzrSXzqjSx/tdYWoGp3nZLPA=
 cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:YZgB+D20jEv2QA+wZ+kjn2V+PXvzwYI/5/w7F9Q9qtY=
-cosmossdk.io/x/feegrant v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:acUxlyqSPrDxEDyJAYona7dvKhvK0OlsyhnaJMXR4VI=
-cosmossdk.io/x/feegrant v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:3JFsI3fyT+OVzIUjH5Az5wnWMmyBm59xUBAOb7t8AoE=
+cosmossdk.io/x/feegrant v0.2.0 h1:oq3WVpoJdxko/XgWmpib63V1mYy9ZQN/1qxDajwGzJ8=
+cosmossdk.io/x/feegrant v0.2.0/go.mod h1:9CutZbmhulk/Yo6tQSVD5LG8Lk40ZAQ1OX4d1CODWAE=
 cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5 h1:HBuHIfYMiI04Qup+aZMo9FAPSjpBZA6opeCuKRBGafA=
 cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5/go.mod h1:CTXKurMCPgwbKoK9bQN3j9SEcfs5vXAvfB05UvB6Iu0=
 cosmossdk.io/x/upgrade v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:z0wvI3BPGcRM+7FMA0Oh4ToX4eUgdkij2+K55AGKWrg=
