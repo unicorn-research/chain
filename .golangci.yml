@@ -2,22 +2,44 @@ version: "2"
 run:
   tests: true
 linters:
-  default: none
-  enable:
-    - errcheck
-    - goconst
-    - gocritic
-    - gosec
-    - govet
-    - ineffassign
-    - misspell
-    - nakedret
-    - revive
-    - staticcheck
-    - thelper
-    - unconvert
-    - unparam
-    - unused
+  default: all
+  disable:
+    - containedctx
+    - contextcheck
+    - cyclop
+    - depguard
+    - dupword
+    - err113
+    - errname
+    - errorlint
+    - exhaustive
+    - exhaustruct
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gochecknoglobals
+    - gochecknoinits
+    - gocognit
+    - gocyclo
+    - godox
+    - interfacebloat
+    - intrange
+    - ireturn
+    - lll
+    - maintidx
+    - mnd
+    - nestif
+    - nilnil
+    - nlreturn
+    - nonamedreturns
+    - predeclared
+    - recvcheck
+    - tagliatelle
+    - testifylint
+    - usetesting
+    - varnamelen
+    - wrapcheck
+    - wsl
   settings:
     gocritic:
       disabled-checks:

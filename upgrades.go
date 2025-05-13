@@ -11,7 +11,7 @@ import (
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 )
 
-// registerUpgradeHandlers registers all supported upgrade handlers
+// registerUpgradeHandlers registers all supported upgrade handlers.
 func (app *SimApp) registerUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(
 		upgrades.V7,

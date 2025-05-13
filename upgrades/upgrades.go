@@ -31,8 +31,7 @@ const (
 	V10 = "v10"
 )
 
-// CreateDefaultUpgradeHandler creates an upgrade handler which can be used for regular upgrade tests
-// that do not require special logic
+// that do not require special logic.
 func CreateDefaultUpgradeHandler(
 	mm *module.Manager,
 	configurator module.Configurator,
