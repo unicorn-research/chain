@@ -1,6 +1,6 @@
-module github.com/cosmos/ibc-go/simapp
+module github.com/unicorn-research/chain
 
-go 1.23.8
+go 1.24
 
 replace (
 	github.com/cosmos/ibc-go/v10 => github.com/cosmos/ibc-go/v10 v10.0.0-beta.0.0.20250507004243-07c09203c21d

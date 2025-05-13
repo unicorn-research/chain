@@ -6,6 +6,7 @@ import (
 	"os"
 
 	dbm "github.com/cosmos/cosmos-db"
+	"github.com/cosmos/ibc-go/simapp"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -39,8 +40,7 @@ import (
 
 	cmtcfg "github.com/cometbft/cometbft/config"
 
-	"github.com/cosmos/ibc-go/simapp"
-	"github.com/cosmos/ibc-go/simapp/params"
+	"github.com/unicorn-reseaerch/chain/params"
 )
 
 // NewRootCmd creates a new root command for simd. It is called once in the

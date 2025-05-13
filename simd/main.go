@@ -7,8 +7,8 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	"github.com/cosmos/ibc-go/simapp"
-	"github.com/cosmos/ibc-go/simapp/simd/cmd"
+	simapp "github.com/unicorn-research/chain"
+	"github.com/unicorn-research/chain//simd/cmd"
 )
 
 func main() {

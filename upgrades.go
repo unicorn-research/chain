@@ -8,7 +8,7 @@ import (
 	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 
-	"github.com/cosmos/ibc-go/simapp/upgrades"
+	"github.com/unicorn-research/chain/upgrades"
 )
 
 // registerUpgradeHandlers registers all supported upgrade handlers
