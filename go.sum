@@ -636,8 +636,8 @@ cosmossdk.io/store v1.10.0-rc.1.0.20250506131703-74993f0a47e5 h1:1QJYDqJwoX4WXQ2
 cosmossdk.io/store v1.10.0-rc.1.0.20250506131703-74993f0a47e5/go.mod h1:BTD4eu5H+zsKxzDKAFibDn+FEHkb+b4mXTOMly1mE7E=
 cosmossdk.io/tools/confix v0.2.0-rc.2 h1:AqY8QwX+R2gBl6xVSskE82E40ZBUrnJqgkaYOPnAQFQ=
 cosmossdk.io/tools/confix v0.2.0-rc.2/go.mod h1:cZ+NfJ7VocFoRNpfSkcOdHO8jA1B4kr4aeNL69OJccQ=
-cosmossdk.io/x/circuit v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:bJTjw0YmUPG47c0LMdOww0MQBZvb3xxHiu0JmCmzYHQ=
-cosmossdk.io/x/circuit v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:N2r3r78d1bzrjCWQxwUgyjJLxjFVsxY2HIcWv3PeZvA=
+cosmossdk.io/x/circuit v0.2.0 h1:RJPMBQWCQU77EcM9HDTBnqRhq21fcUxgWZl7BZylJZo=
+cosmossdk.io/x/circuit v0.2.0/go.mod h1:CjiGXDeZs64nMv0fG+QmvGVTcn7n3Sv4cDszMRR2JqU=
 cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:rzuk0k7QsNRw2TQJjoRkzrSXzqjSx/tdYWoGp3nZLPA=
 cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:YZgB+D20jEv2QA+wZ+kjn2V+PXvzwYI/5/w7F9Q9qtY=
 cosmossdk.io/x/feegrant v0.2.0 h1:oq3WVpoJdxko/XgWmpib63V1mYy9ZQN/1qxDajwGzJ8=
