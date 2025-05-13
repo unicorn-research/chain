@@ -12,7 +12,9 @@ in an approchable and minimal format.  We're also satisfying a [the spec require
 
 ## Wyoming DAO Compliance
 
-Chain is designed to comply with Wyoming DAO legal requirements. The Cosmos SDK provides the foundational blockchain infrastructure that satisfies these requirements without requiring additional smart contract platforms like CosmWasm. Here's how Chain's architecture maps to the Wyoming DAO specifications:
+Chain imements a Wyoming DAO. 
+
+The Cosmos SDK provides the foundational blockchain infrastructure that satisfies these requirements without requiring additional smart contract platforms like CosmWasm. Here's how Chain's architecture maps to the Wyoming DAO specifications:
 
 ### Blockchain Requirements (W.S. 34-29-106(g)(i))
 Cosmos SDK provides a complete blockchain framework that meets Wyoming's definition of a blockchain as a "digital ledger of transactions." Chain inherits these properties:
