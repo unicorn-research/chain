@@ -18,6 +18,7 @@ linters:
     - forcetypeassert
     - funlen
     - gochecknoglobals
+    - gomoddirectives
     - gochecknoinits
     - gocognit
     - gocyclo
@@ -26,7 +27,6 @@ linters:
     - intrange
     - ireturn
     - lll
-    - maintidx
     - mnd
     - nestif
     - nilnil
@@ -61,9 +61,6 @@ linters:
         - name: if-return
           disabled: true
         - name: max-public-structs
-          disabled: true
-
-        - name: cyclomatic
           disabled: true
         - name: file-header
           disabled: true
