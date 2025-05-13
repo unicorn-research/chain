@@ -3,7 +3,7 @@ package simapp
 import (
 	"encoding/json"
 	"errors"
-	"log"
+	"fmt"
 
 	storetypes "cosmossdk.io/store/types"
 
@@ -27,7 +27,9 @@ func (app *SimApp) ExportAppStateAndValidators(
 	height := app.LastBlockHeight() + 1
 	if forZeroHeight {
 		height = 0
-		app.prepForZeroHeightGenesis(ctx, jailAllowedAddrs)
+		if err := app.prepForZeroHeightGenesis(ctx, jailAllowedAddrs); err != nil {
+			return servertypes.ExportedApp{}, err
+		}
 	}
 
 	genState, err := app.ModuleManager.ExportGenesis(ctx, app.appCodec)
@@ -49,7 +51,7 @@ func (app *SimApp) ExportAppStateAndValidators(
 }
 
 // in favour of export at a block height.
-func (app *SimApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []string) {
+func (app *SimApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []string) error {
 	applyAllowedAddrs := len(jailAllowedAddrs) > 0
 
 	// check if there is an allowed address list
@@ -59,7 +61,7 @@ func (app *SimApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []
 	for _, addr := range jailAllowedAddrs {
 		_, err := sdk.ValAddressFromBech32(addr)
 		if err != nil {
-			log.Fatal(err)
+			return fmt.Errorf("invalid validator address: %w", err)
 		}
 		allowedAddrsMap[addr] = true
 	}
@@ -224,7 +226,7 @@ func (app *SimApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []
 
 	_, err = app.StakingKeeper.ApplyAndReturnValidatorSetUpdates(ctx)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to apply validator set updates: %w", err)
 	}
 
 	/* Handle slashing state. */
@@ -242,6 +244,8 @@ func (app *SimApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []
 		},
 	)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to iterate validator signing infos: %w", err)
 	}
+
+	return nil
 }
