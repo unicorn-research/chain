@@ -1,3 +1,20 @@
+# Preamble
+
+A good phone with:
+1) Changing hardware addresses
+2) encrypted storage
+3) anonymous data access
+
+Would be the core of a nation of sovereigns who fulfill the requirements recognized in U.S. and International law as legitimate. 
+
+Terms of service reflect the tenets of that nation. Make the tenets of said nation are:
+
+1) innocent until proven guilty
+2) property rights shall not be infringed upon
+3) no injured natural man or woman, no crime
+4) innocent until proven guilty
+
+
 # `Chain`
 
 Chain is based on the ibc-go `SimApp`, and always will be.  This will allow teams to test the latest and greatest of:
