@@ -126,10 +126,10 @@ import (
 const appName = "SimApp"
 
 var (
-	// DefaultNodeHome default home directories for the application daemon
+	// DefaultNodeHome default home directories for the application daemon.
 	DefaultNodeHome string
 
-	// module account permissions
+	// module account permissions.
 	maccPerms = map[string][]string{
 		authtypes.FeeCollectorName:     nil,
 		distrtypes.ModuleName:          nil,
@@ -649,63 +649,30 @@ func NewSimApp(
 	return app
 }
 
-func (app *SimApp) setAnteHandler(txConfig client.TxConfig) {
-	anteHandler, err := NewAnteHandler(
-		HandlerOptions{
-			ante.HandlerOptions{
-				AccountKeeper:   app.AccountKeeper,
-				BankKeeper:      app.BankKeeper,
-				SignModeHandler: txConfig.SignModeHandler(),
-				FeegrantKeeper:  app.FeeGrantKeeper,
-				SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
-			},
-			&app.CircuitKeeper,
-			app.IBCKeeper,
-		},
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	// Set the AnteHandler for the app
-	app.SetAnteHandler(anteHandler)
-}
-
-func (app *SimApp) setPostHandler() {
-	postHandler, err := posthandler.NewPostHandler(
-		posthandler.HandlerOptions{},
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	app.SetPostHandler(postHandler)
-}
-
-// Name returns the name of the App
+// Name returns the name of the App.
 func (app *SimApp) Name() string { return app.BaseApp.Name() }
 
-// PreBlocker application updates every pre block
+// PreBlocker application updates every pre block.
 func (app *SimApp) PreBlocker(ctx sdk.Context, _ *abci.FinalizeBlockRequest) (*sdk.ResponsePreBlock, error) {
 	return app.ModuleManager.PreBlock(ctx)
 }
 
-// BeginBlocker application updates every begin block
+// BeginBlocker application updates every begin block.
 func (app *SimApp) BeginBlocker(ctx sdk.Context) (sdk.BeginBlock, error) {
 	return app.ModuleManager.BeginBlock(ctx)
 }
 
-// EndBlocker application updates every end block
+// EndBlocker application updates every end block.
 func (app *SimApp) EndBlocker(ctx sdk.Context) (sdk.EndBlock, error) {
 	return app.ModuleManager.EndBlock(ctx)
 }
 
-// Configurator returns the configurator for the app
+// Configurator returns the configurator for the app.
 func (app *SimApp) Configurator() module.Configurator {
 	return app.configurator
 }
 
-// InitChainer application update at chain initialization
+// InitChainer application update at chain initialization.
 func (app *SimApp) InitChainer(ctx sdk.Context, req *abci.InitChainRequest) (*abci.InitChainResponse, error) {
 	var genesisState GenesisState
 	if err := json.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
@@ -717,7 +684,7 @@ func (app *SimApp) InitChainer(ctx sdk.Context, req *abci.InitChainRequest) (*ab
 	return app.ModuleManager.InitGenesis(ctx, app.appCodec, genesisState)
 }
 
-// LoadHeight loads a particular height
+// LoadHeight loads a particular height.
 func (app *SimApp) LoadHeight(height int64) error {
 	return app.LoadVersion(height)
 }
@@ -738,12 +705,12 @@ func (app *SimApp) AppCodec() codec.Codec {
 	return app.appCodec
 }
 
-// InterfaceRegistry returns SimApp's InterfaceRegistry
+// InterfaceRegistry returns SimApp's InterfaceRegistry.
 func (app *SimApp) InterfaceRegistry() types.InterfaceRegistry {
 	return app.interfaceRegistry
 }
 
-// TxConfig returns SimApp's TxConfig
+// TxConfig returns SimApp's TxConfig.
 func (app *SimApp) TxConfig() client.TxConfig {
 	return app.txConfig
 }
@@ -796,7 +763,7 @@ func (app *SimApp) GetSubspace(moduleName string) paramstypes.Subspace {
 	return subspace
 }
 
-// SimulationManager implements the SimulationApp interface
+// SimulationManager implements the SimulationApp interface.
 func (app *SimApp) SimulationManager() *module.SimulationManager {
 	return app.simulationManager
 }
@@ -843,6 +810,39 @@ func (app *SimApp) RegisterNodeService(clientCtx client.Context, cfg config.Conf
 	nodeservice.RegisterNodeService(clientCtx, app.GRPCQueryRouter(), cfg)
 }
 
+func (app *SimApp) setAnteHandler(txConfig client.TxConfig) {
+	anteHandler, err := NewAnteHandler(
+		HandlerOptions{
+			ante.HandlerOptions{
+				AccountKeeper:   app.AccountKeeper,
+				BankKeeper:      app.BankKeeper,
+				SignModeHandler: txConfig.SignModeHandler(),
+				FeegrantKeeper:  app.FeeGrantKeeper,
+				SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
+			},
+			&app.CircuitKeeper,
+			app.IBCKeeper,
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	// Set the AnteHandler for the app
+	app.SetAnteHandler(anteHandler)
+}
+
+func (app *SimApp) setPostHandler() {
+	postHandler, err := posthandler.NewPostHandler(
+		posthandler.HandlerOptions{},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	app.SetPostHandler(postHandler)
+}
+
 // GetMaccPerms returns a copy of the module account permissions
 //
 // NOTE: This is solely to be used for testing purposes.
@@ -866,7 +866,7 @@ func BlockedAddresses() map[string]bool {
 	return modAccAddrs
 }
 
-// initParamsKeeper init params keeper and its subspaces
+// initParamsKeeper init params keeper and its subspaces.
 func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino, key, tkey storetypes.StoreKey) paramskeeper.Keeper {
 	paramsKeeper := paramskeeper.NewKeeper(appCodec, legacyAmino, key, tkey)
 

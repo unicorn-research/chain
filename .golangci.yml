@@ -1,23 +1,48 @@
 version: "2"
 run:
   tests: true
+  allow-parallel: true
 linters:
-  default: none
+  default: all
   enable:
-    - errcheck
-    - goconst
-    - gocritic
-    - gosec
-    - govet
-    - ineffassign
-    - misspell
-    - nakedret
-    - revive
-    - staticcheck
-    - thelper
-    - unconvert
-    - unparam
-    - unused
+    - maintidx
+  disable:
+    - containedctx
+    - contextcheck
+    - cyclop
+    - depguard
+    - dupword
+    - err113
+    - errname
+    - errorlint
+    - exhaustive
+    - exhaustruct
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gochecknoglobals
+    - gomoddirectives
+    - gochecknoinits
+    - gocognit
+    - gocyclo
+    - godox
+    - interfacebloat
+    - intrange
+    - ireturn
+    - lll
+    - mnd
+    - nestif
+    - nilnil
+    - nlreturn
+    - nonamedreturns
+    - predeclared
+    - recvcheck
+    - tagliatelle
+    - testifylint
+    - usetesting
+    - varnamelen
+    - wrapcheck
+    - wsl
   settings:
     gocritic:
       disabled-checks:
@@ -34,17 +59,9 @@ linters:
       rules:
         - name: redundant-import-alias
           disabled: true
-        - name: use-any
-          disabled: true
-        - name: if-return
-          disabled: true
-        - name: max-public-structs
-          disabled: true
         - name: cognitive-complexity
           disabled: true
-        - name: argument-limit
-          disabled: true
-        - name: cyclomatic
+        - name: max-public-structs
           disabled: true
         - name: file-header
           disabled: true
@@ -61,8 +78,6 @@ linters:
         - name: empty-lines
           disabled: true
         - name: banned-characters
-          disabled: true
-        - name: deep-exit
           disabled: true
         - name: confusing-results
           disabled: true
@@ -84,6 +99,9 @@ linters:
             - fmt.Print
             - fmt.Println
             - myFunction
+          disabled: false
+        - name: cyclomatic 
+          arguments: [10]
           disabled: false
   exclusions:
     generated: lax
@@ -108,6 +126,15 @@ linters:
       - linters:
           - gosec
         text: 'G115: integer overflow conversion'
+      - linters:
+          - revive 
+        text: 'cyclomatic: function \(\*SimApp\)\.prepForZeroHeightGenesis has cyclomatic complexity'
+      - linters:
+          - maintidx
+        text: 'Function name: NewSimApp, Cyclomatic Complexity:'
+      - linters:
+          - maintidx
+        text: 'Function name: prepForZeroHeightGenesis, Cyclomatic Complexity:'
     paths:
       - third_party$
       - builtin$
