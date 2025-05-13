@@ -10,6 +10,61 @@ in an approchable and minimal format.  We're also satisfying a [the spec require
 
 `Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
 
+## Wyoming DAO Compliance
+
+Chain is designed to comply with Wyoming DAO legal requirements. The Cosmos SDK provides the foundational blockchain infrastructure that satisfies these requirements without requiring additional smart contract platforms like CosmWasm. Here's how Chain's architecture maps to the Wyoming DAO specifications:
+
+### Blockchain Requirements (W.S. 34-29-106(g)(i))
+Cosmos SDK provides a complete blockchain framework that meets Wyoming's definition of a blockchain as a "digital ledger of transactions." Chain inherits these properties:
+- Immutable transaction records
+- Cryptographically secured blocks
+- Decentralized consensus mechanism via Comet BFT
+
+### Smart Contract Requirements (W.S. 17-31-102(a)(ix))
+While Chain doesn't use a separate smart contract platform, Cosmos SDK modules themselves function as "smart contracts" under Wyoming's definition:
+- **Governance Module**: Functions as the automated transaction system for "administrating membership interest votes"
+- **Bank Module**: Handles the "taking custody of and transferring" of digital assets
+- **Staking Module**: Manages delegation relationships via code executed on the blockchain
+
+Each of these modules executes deterministic code based on conditions specified in transactions, meeting the core definition of smart contracts.
+
+### Management Structure (W.S. 17-31-109)
+Cosmos SDK's governance module fully satisfies the requirement that "Management of a decentralized autonomous organization shall be vested in its members." Specifically:
+- Token holders (members) submit and vote on proposals
+- Proposals execute automatically when passed
+- Governance parameters can be adjusted through the governance process itself
+
+### Upgradability (W.S. 17-31-109)
+The Cosmos SDK upgrade module ensures all chain code can be "updated, modified or otherwise upgraded" as required by Wyoming law:
+- Governance proposals can include software upgrades
+- Approved upgrades execute automatically at predetermined heights
+- Ensures continuity while allowing evolution of the organization
+
+### Membership Interests and Voting (W.S. 17-31-111)
+The bank module tracks token ownership, which represents membership interests:
+- Each token holder's voting power is proportional to their token balance
+- The governance module enforces voting periods and tallying
+- Delegation allows token holders to participate via trusted representatives
+
+### Transparency (W.S. 17-31-112)
+As an "open blockchain," Chain ensures all records are publicly accessible:
+- Transaction history is transparent and immutable
+- Token ownership is publicly verifiable
+- Governance proposals and votes are publicly recorded
+
+### Withdrawal of Members (W.S. 17-31-113)
+Token holders can freely transfer their tokens, effectively implementing withdrawal:
+- Members can transfer, sell, or alienate their tokens at any time
+- This satisfies W.S. 17-31-113(d)(ii) for member withdrawal
+
+### Dissolution Mechanisms (W.S. 17-31-114)
+Governance proposals can implement any of the dissolution events specified in Wyoming law:
+- A governance proposal can halt the chain
+- If activity ceases for a year, it meets the legal condition for dissolution
+- Chain governance can implement time-based or condition-based termination
+
+To fully comply with Wyoming DAO requirements, Chain must be registered as a Wyoming LLC with articles of organization that include the required notices and statements. The actual blockchain serves as the technical implementation of the DAO's operations.
+
 ## Running Testnets with `chain`
 
 Want to spin up a quick testnet with your friends? Follow these steps. Unless stated otherwise, all participants in the testnet must follow through with each step.
