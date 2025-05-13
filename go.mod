@@ -13,7 +13,7 @@ require (
 	cosmossdk.io/core v1.0.1-0.20250506131703-74993f0a47e5
 	cosmossdk.io/log v1.5.1
 	cosmossdk.io/store v1.10.0-rc.1.0.20250506131703-74993f0a47e5
-	cosmossdk.io/tools/confix v0.1.3-0.20250506131703-74993f0a47e5
+	cosmossdk.io/tools/confix v0.2.0-rc.2
 	cosmossdk.io/x/circuit v0.2.0-rc.2.0.20250506131703-74993f0a47e5
 	cosmossdk.io/x/evidence v0.2.0-rc.2.0.20250506131703-74993f0a47e5
 	cosmossdk.io/x/feegrant v0.2.0-rc.2.0.20250506131703-74993f0a47e5
