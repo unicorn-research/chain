@@ -3,14 +3,16 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
-// Define types for our genesis file
+// Define types for our genesis file.
 type GenesisAccount struct {
 	Address       string  `json:"address"`
 	AccountNumber string  `json:"account_number"`
@@ -79,39 +81,56 @@ type DenomUnit struct {
 }
 
 type GenesisDoc struct {
-	GenesisTime     time.Time              `json:"genesis_time"`
-	ChainID         string                 `json:"chain_id"`
-	InitialHeight   string                 `json:"initial_height"`
-	ConsensusParams map[string]interface{} `json:"consensus_params"`
-	AppState        AppState               `json:"app_state"`
+	GenesisTime     time.Time      `json:"genesis_time"`
+	ChainID         string         `json:"chain_id"`
+	InitialHeight   string         `json:"initial_height"`
+	ConsensusParams map[string]any `json:"consensus_params"`
+	AppState        AppState       `json:"app_state"`
 }
 
 type AppState struct {
-	Auth    AuthGenesis            `json:"auth"`
-	Bank    BankGenesis            `json:"bank"`
-	Staking map[string]interface{} `json:"staking"`
-	Genutil map[string]interface{} `json:"genutil"`
+	Auth    AuthGenesis    `json:"auth"`
+	Bank    BankGenesis    `json:"bank"`
+	Staking map[string]any `json:"staking"`
+	Genutil map[string]any `json:"genutil"`
 	// Other modules can be added as needed
 }
 
-// Holds our internal processing data
+// Holds our internal processing data.
 type GenesisData struct {
 	Accounts map[string]*GenesisAccount
 	Balances map[string][]Coin
 	Supply   []Coin
 }
 
+// Constant for address prefix conversion.
+const (
+	OldPrefix = "unicorn"
+	NewPrefix = "gadikian"
+)
+
 func main() {
+	err := run()
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		os.Exit(1)
+	}
+}
+
+// run performs the main logic of the program.
+func run() error {
 	// Check if IPFS directory is provided
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: genesis-tool <ipfs-dir> [chain-id]")
-		os.Exit(1)
+		return errors.New("usage: genesis-tool <ipfs-dir> [chain-id]")
 	}
 
 	ipfsDir := os.Args[1]
-	chainID := "unicorn-1"
+	chainID := "gadikian-1" // Default chain-id changed to gadikian
 	if len(os.Args) > 2 {
 		chainID = os.Args[2]
+	} else if strings.HasPrefix(chainID, "unicorn") {
+		// Make sure we're using the gadikian chain ID if not specified
+		chainID = strings.Replace(chainID, "unicorn", "gadikian", 1)
 	}
 
 	// Initialize genesis data
@@ -121,14 +140,37 @@ func main() {
 		Supply:   make([]Coin, 0),
 	}
 
+	// Process files
+	if err := processFiles(ipfsDir, genesisData); err != nil {
+		return err
+	}
+
+	// Convert prefixes
+	fmt.Println("Converting bech32 prefixes from 'unicorn' to 'gadikian'...")
+	convertPrefixes(genesisData)
+
+	// Create final genesis.json
+	fmt.Println("Generating genesis.json...")
+	if err := generateGenesisJSON(genesisData, chainID); err != nil {
+		return fmt.Errorf("error generating genesis JSON: %w", err)
+	}
+
+	fmt.Println("Genesis file created successfully: genesis.json")
+	fmt.Printf("Chain ID: %s\n", chainID)
+	fmt.Println("Addresses converted from unicorn prefix to gadikian prefix")
+	fmt.Println("Token denoms converted from uwunicorn to ugadikian")
+
+	return nil
+}
+
+// processFiles processes all CSV files and populates the genesis data.
+func processFiles(ipfsDir string, data *GenesisData) error {
 	// Process balances.csv if it exists
 	fmt.Println("Processing balances.csv...")
 	balancesPath := filepath.Join(ipfsDir, "balances.csv")
 	if _, err := os.Stat(balancesPath); err == nil {
-		err := processBalances(balancesPath, genesisData)
-		if err != nil {
-			fmt.Printf("Error processing balances: %v\n", err)
-			os.Exit(1)
+		if err := processBalances(balancesPath, data); err != nil {
+			return fmt.Errorf("error processing balances: %w", err)
 		}
 	} else {
 		fmt.Println("balances.csv not found, skipping...")
@@ -137,29 +179,23 @@ func main() {
 	// Process supply.csv
 	fmt.Println("Processing supply.csv...")
 	supplyPath := filepath.Join(ipfsDir, "supply.csv")
-	err := processSupply(supplyPath, genesisData)
-	if err != nil {
-		fmt.Printf("Error processing supply: %v\n", err)
-		os.Exit(1)
+	if err := processSupply(supplyPath, data); err != nil {
+		return fmt.Errorf("error processing supply: %w", err)
 	}
 
 	// Process kaway_bond.csv
 	fmt.Println("Processing kaway_bond.csv...")
 	kawayPath := filepath.Join(ipfsDir, "kaway_bond.csv")
-	err = processBonds(kawayPath, "uwunicorn", genesisData)
-	if err != nil {
-		fmt.Printf("Error processing kaway_bond: %v\n", err)
-		os.Exit(1)
+	if err := processBonds(kawayPath, "uwunicorn", data); err != nil {
+		return fmt.Errorf("error processing kaway_bond: %w", err)
 	}
 
 	// Process uwuval_bond.csv if it exists
 	fmt.Println("Processing uwuval_bond.csv...")
 	uwuvalPath := filepath.Join(ipfsDir, "uwuval_bond.csv")
 	if _, err := os.Stat(uwuvalPath); err == nil {
-		err := processBonds(uwuvalPath, "valuwunicorn", genesisData)
-		if err != nil {
-			fmt.Printf("Error processing uwuval_bond: %v\n", err)
-			os.Exit(1)
+		if err := processBonds(uwuvalPath, "valuwunicorn", data); err != nil {
+			return fmt.Errorf("error processing uwuval_bond: %w", err)
 		}
 	} else {
 		fmt.Println("uwuval_bond.csv not found, skipping...")
@@ -167,20 +203,84 @@ func main() {
 
 	// Process LP files
 	fmt.Println("Processing liquidity pool data...")
-	processLPs(ipfsDir, genesisData)
+	processLPs(ipfsDir)
 
-	// Create final genesis.json
-	fmt.Println("Generating genesis.json...")
-	err = generateGenesisJSON(genesisData, chainID)
-	if err != nil {
-		fmt.Printf("Error generating genesis JSON: %v\n", err)
-		os.Exit(1)
-	}
-
-	fmt.Println("Genesis file created successfully: genesis.json")
+	return nil
 }
 
-// Process bonds from a CSV file (kaway_bond.csv or uwuval_bond.csv)
+// Convert unicorn prefixes to gadikian.
+func convertPrefixes(data *GenesisData) {
+	// Convert account addresses
+	convertedAccounts := make(map[string]*GenesisAccount)
+	for oldAddress, account := range data.Accounts {
+		newAddress := convertAddress(oldAddress)
+		// Also update the address in the account itself
+		account.Address = newAddress
+		convertedAccounts[newAddress] = account
+	}
+	data.Accounts = convertedAccounts
+
+	// Convert balances addresses and denoms
+	convertedBalances := make(map[string][]Coin)
+	for oldAddress, coins := range data.Balances {
+		newAddress := convertAddress(oldAddress)
+
+		// Convert denoms in coins
+		convertedCoins := make([]Coin, len(coins))
+		for i, coin := range coins {
+			convertedCoins[i] = Coin{
+				Denom:  convertDenom(coin.Denom),
+				Amount: coin.Amount,
+			}
+		}
+
+		convertedBalances[newAddress] = convertedCoins
+	}
+	data.Balances = convertedBalances
+
+	// Convert supply denoms
+	for i, coin := range data.Supply {
+		data.Supply[i] = Coin{
+			Denom:  convertDenom(coin.Denom),
+			Amount: coin.Amount,
+		}
+	}
+
+	// Debug output
+	fmt.Printf("Converted %d account addresses\n", len(data.Accounts))
+	fmt.Printf("Converted %d balance entries\n", len(data.Balances))
+	fmt.Printf("Converted %d supply entries\n", len(data.Supply))
+}
+
+// Convert a unicorn address to a gadikian address.
+func convertAddress(address string) string {
+	if strings.HasPrefix(address, OldPrefix) {
+		return NewPrefix + address[len(OldPrefix):]
+	}
+	return address
+}
+
+// Convert a denom from unicorn-prefixed to gadikian-prefixed.
+func convertDenom(denom string) string {
+	// Convert uwunicorn -> ugadikian
+	if denom == "uwunicorn" {
+		return "ugadikian"
+	}
+
+	// Convert valuwunicorn -> valgadikian
+	if denom == "valuwunicorn" {
+		return "valgadikian"
+	}
+
+	// Convert factory/unicorn.../uXXX -> factory/gadikian.../uXXX
+	if strings.HasPrefix(denom, "factory/"+OldPrefix) {
+		return "factory/" + NewPrefix + denom[len("factory/"+OldPrefix):]
+	}
+
+	return denom
+}
+
+// Process bonds from a CSV file (kaway_bond.csv or uwuval_bond.csv).
 func processBonds(filePath, denom string, data *GenesisData) error {
 	// Check if file exists
 	if _, err := os.Stat(filePath); err != nil {
@@ -191,7 +291,7 @@ func processBonds(filePath, denom string, data *GenesisData) error {
 	// Open the CSV file
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("failed to open %s: %v", filepath.Base(filePath), err)
+		return fmt.Errorf("failed to open %s: %w", filepath.Base(filePath), err)
 	}
 	defer file.Close()
 
@@ -201,7 +301,7 @@ func processBonds(filePath, denom string, data *GenesisData) error {
 	// Read the header
 	header, err := reader.Read()
 	if err != nil {
-		return fmt.Errorf("failed to read header: %v", err)
+		return fmt.Errorf("failed to read header: %w", err)
 	}
 
 	// Expected header: address,uwu or similar
@@ -209,6 +309,11 @@ func processBonds(filePath, denom string, data *GenesisData) error {
 		return fmt.Errorf("unexpected header format in %s, expected: address,amount", filepath.Base(filePath))
 	}
 
+	return processCsvRows(reader, data, denom)
+}
+
+// Process CSV rows to extract bond data.
+func processCsvRows(reader *csv.Reader, data *GenesisData, denom string) error {
 	// Process rows
 	for {
 		row, err := reader.Read()
@@ -216,7 +321,7 @@ func processBonds(filePath, denom string, data *GenesisData) error {
 			break
 		}
 		if err != nil {
-			return fmt.Errorf("error reading row: %v", err)
+			return fmt.Errorf("error reading row: %w", err)
 		}
 
 		// Parse data
@@ -244,22 +349,18 @@ func processBonds(filePath, denom string, data *GenesisData) error {
 		}
 
 		// Add coin to balances
-		if _, exists := data.Balances[address]; exists {
-			data.Balances[address] = append(data.Balances[address], coin)
-		} else {
-			data.Balances[address] = []Coin{coin}
-		}
+		data.Balances[address] = append(data.Balances[address], coin)
 	}
 
 	return nil
 }
 
-// Process balances.csv - expected to be complex with many columns
+// Process balances.csv - expected to be complex with many columns.
 func processBalances(filePath string, data *GenesisData) error {
 	// Open the CSV file
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("failed to open balances.csv: %v", err)
+		return fmt.Errorf("failed to open balances.csv: %w", err)
 	}
 	defer file.Close()
 
@@ -269,14 +370,19 @@ func processBalances(filePath string, data *GenesisData) error {
 	// Read the header to determine columns
 	header, err := reader.Read()
 	if err != nil {
-		return fmt.Errorf("failed to read header: %v", err)
+		return fmt.Errorf("failed to read header: %w", err)
 	}
 
 	// First column should be 'address'
 	if header[0] != "address" {
-		return fmt.Errorf("unexpected header format in balances.csv, first column should be 'address'")
+		return errors.New("unexpected header format in balances.csv, first column should be 'address'")
 	}
 
+	return processBalanceRows(reader, header, data)
+}
+
+// Process balance rows from CSV.
+func processBalanceRows(reader *csv.Reader, header []string, data *GenesisData) error {
 	// Process rows
 	for {
 		row, err := reader.Read()
@@ -284,58 +390,67 @@ func processBalances(filePath string, data *GenesisData) error {
 			break
 		}
 		if err != nil {
-			return fmt.Errorf("error reading row: %v", err)
+			return fmt.Errorf("error reading row: %w", err)
 		}
 
-		// Parse address
-		address := row[0]
-
-		// Ensure account exists
-		if _, exists := data.Accounts[address]; !exists {
-			data.Accounts[address] = &GenesisAccount{
-				Address:       address,
-				AccountNumber: "0",
-				Sequence:      "0",
-			}
-		}
-
-		// Parse balances for each denom in the header
-		var coins []Coin
-		for i := 1; i < len(header) && i < len(row); i++ {
-			denom := header[i]
-			amount := row[i]
-
-			// Skip empty amounts
-			if amount == "" || amount == "0" {
-				continue
-			}
-
-			// Add coin
-			coins = append(coins, Coin{
-				Denom:  denom,
-				Amount: amount,
-			})
-		}
-
-		// Add to balances
-		if len(coins) > 0 {
-			if existing, ok := data.Balances[address]; ok {
-				data.Balances[address] = append(existing, coins...)
-			} else {
-				data.Balances[address] = coins
-			}
+		if err := processBalanceRow(row, header, data); err != nil {
+			return err
 		}
 	}
 
 	return nil
 }
 
-// Process supply.csv
+// Process a single balance row.
+func processBalanceRow(row []string, header []string, data *GenesisData) error {
+	// Parse address
+	address := row[0]
+
+	// Ensure account exists
+	if _, exists := data.Accounts[address]; !exists {
+		data.Accounts[address] = &GenesisAccount{
+			Address:       address,
+			AccountNumber: "0",
+			Sequence:      "0",
+		}
+	}
+
+	// Parse balances for each denom in the header
+	var coins []Coin
+	for i := 1; i < len(header) && i < len(row); i++ {
+		denom := header[i]
+		amount := row[i]
+
+		// Skip empty amounts
+		if amount == "" || amount == "0" {
+			continue
+		}
+
+		// Add coin
+		coins = append(coins, Coin{
+			Denom:  denom,
+			Amount: amount,
+		})
+	}
+
+	// Add to balances
+	if len(coins) > 0 {
+		if existing, ok := data.Balances[address]; ok {
+			data.Balances[address] = append(existing, coins...)
+		} else {
+			data.Balances[address] = coins
+		}
+	}
+
+	return nil
+}
+
+// Process supply.csv.
 func processSupply(filePath string, data *GenesisData) error {
 	// Open the CSV file
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("failed to open supply.csv: %v", err)
+		return fmt.Errorf("failed to open supply.csv: %w", err)
 	}
 	defer file.Close()
 
@@ -345,12 +460,12 @@ func processSupply(filePath string, data *GenesisData) error {
 	// Read the header
 	header, err := reader.Read()
 	if err != nil {
-		return fmt.Errorf("failed to read header: %v", err)
+		return fmt.Errorf("failed to read header: %w", err)
 	}
 
 	// Expected header: denom,amount
 	if len(header) < 2 || header[0] != "denom" || header[1] != "amount" {
-		return fmt.Errorf("unexpected header format in supply.csv, expected: denom,amount")
+		return errors.New("unexpected header format in supply.csv, expected: denom,amount")
 	}
 
 	// Process rows
@@ -360,7 +475,7 @@ func processSupply(filePath string, data *GenesisData) error {
 			break
 		}
 		if err != nil {
-			return fmt.Errorf("error reading row: %v", err)
+			return fmt.Errorf("error reading row: %w", err)
 		}
 
 		// Parse data
@@ -377,8 +492,8 @@ func processSupply(filePath string, data *GenesisData) error {
 	return nil
 }
 
-// Process pool_bals.csv and lp_bals.csv
-func processLPs(ipfsDir string, data *GenesisData) error {
+// Process pool_bals.csv and lp_bals.csv.
+func processLPs(ipfsDir string) {
 	// This is a simplified implementation that just reports files found
 	// In a real-world scenario, you would need to process LP-related data
 
@@ -399,11 +514,9 @@ func processLPs(ipfsDir string, data *GenesisData) error {
 	if _, err := os.Stat(totalLPsFilePath); err == nil {
 		fmt.Println("total_lps.csv found, but specialized LP processing not implemented")
 	}
-
-	return nil
 }
 
-// Generate the final genesis.json file
+// Generate the final genesis.json file.
 func generateGenesisJSON(data *GenesisData, chainID string) error {
 	// Create auth genesis
 	authGenesis := AuthGenesis{
@@ -445,8 +558,8 @@ func generateGenesisJSON(data *GenesisData, chainID string) error {
 	appState := AppState{
 		Auth:    authGenesis,
 		Bank:    bankGenesis,
-		Staking: map[string]interface{}{},
-		Genutil: map[string]interface{}{},
+		Staking: map[string]any{},
+		Genutil: map[string]any{},
 	}
 
 	// Create final genesis document
@@ -454,19 +567,19 @@ func generateGenesisJSON(data *GenesisData, chainID string) error {
 		GenesisTime:   time.Now(),
 		ChainID:       chainID,
 		InitialHeight: "1",
-		ConsensusParams: map[string]interface{}{
-			"block": map[string]interface{}{
+		ConsensusParams: map[string]any{
+			"block": map[string]any{
 				"max_bytes": "22020096",
 				"max_gas":   "-1",
 			},
-			"evidence": map[string]interface{}{
+			"evidence": map[string]any{
 				"max_age_num_blocks": "100000",
 				"max_age_duration":   "172800000000000",
 			},
-			"validator": map[string]interface{}{
+			"validator": map[string]any{
 				"pub_key_types": []string{"ed25519"},
 			},
-			"version": map[string]interface{}{},
+			"version": map[string]any{},
 		},
 		AppState: appState,
 	}
@@ -474,14 +587,45 @@ func generateGenesisJSON(data *GenesisData, chainID string) error {
 	// Marshal the genesis document with pretty printing
 	genesisBz, err := json.MarshalIndent(genesisDoc, "", "  ")
 	if err != nil {
-		return fmt.Errorf("failed to marshal genesis doc: %v", err)
+		return fmt.Errorf("failed to marshal genesis doc: %w", err)
 	}
 
-	// Write to file
-	err = os.WriteFile("genesis.json", genesisBz, 0644)
+	// Write to file first
+	tempFilePath := "genesis.json.temp"
+	err = os.WriteFile(tempFilePath, genesisBz, 0o600)
 	if err != nil {
-		return fmt.Errorf("failed to write genesis file: %v", err)
+		return fmt.Errorf("failed to write temporary genesis file: %w", err)
 	}
+
+	// Read the file back in
+	fileContent, err := os.ReadFile(tempFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to read temporary genesis file: %w", err)
+	}
+
+	// Convert to string for replacements
+	jsonStr := string(fileContent)
+
+	// Perform all prefix replacements
+	jsonStr = strings.ReplaceAll(jsonStr, "\"unicorn1", "\"gadikian1")
+	jsonStr = strings.ReplaceAll(jsonStr, "\"uwunicorn\"", "\"ugadikian\"")
+	jsonStr = strings.ReplaceAll(jsonStr, "\"valuwunicorn\"", "\"valgadikian\"")
+	jsonStr = strings.Replace(jsonStr, "\"chain_id\": \"unicorn-1\"", "\"chain_id\": \"gadikian-1\"", 1)
+
+	// Log what we did
+	fmt.Println("Converted bech32 prefixes from 'unicorn' to 'gadikian'")
+	fmt.Println("Converted token denominations from 'uwunicorn' to 'ugadikian'")
+	fmt.Println("Converted validator token denominations from 'valuwunicorn' to 'valgadikian'")
+	fmt.Println("Set chain ID to 'gadikian-1'")
+
+	// Write to final file
+	err = os.WriteFile("genesis.json", []byte(jsonStr), 0o600)
+	if err != nil {
+		return fmt.Errorf("failed to write final genesis file: %w", err)
+	}
+
+	// Clean up temp file
+	os.Remove(tempFilePath)
 
 	return nil
 }
