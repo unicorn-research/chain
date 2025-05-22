@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"math/big"
@@ -11,6 +12,7 @@ import (
 	"time"
 
 	sdkmath "cosmossdk.io/math"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -19,7 +21,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
-// Define a struct to hold the genesis data
+// Define a struct to hold the genesis data.
 type GenesisData struct {
 	Accounts    []authtypes.GenesisAccount
 	Balances    []banktypes.Balance
@@ -28,7 +30,7 @@ type GenesisData struct {
 	// Add other modules as needed
 }
 
-// Define a struct to hold the final genesis document
+// Define a struct to hold the final genesis document.
 type GenesisDoc struct {
 	GenesisTime     time.Time                  `json:"genesis_time"`
 	ChainID         string                     `json:"chain_id"`
@@ -118,7 +120,7 @@ func main() {
 	fmt.Println("Genesis file created successfully: genesis.json")
 }
 
-// Process balances.csv - expected format is more complex with multiple columns
+// Process balances.csv - expected format is more complex with multiple columns.
 func processBalances(ipfsDir string, data *GenesisData) error {
 	filePath := filepath.Join(ipfsDir, "balances.csv")
 
@@ -140,7 +142,7 @@ func processBalances(ipfsDir string, data *GenesisData) error {
 
 	// First column should be 'address'
 	if header[0] != "address" {
-		return fmt.Errorf("unexpected header format in balances.csv, first column should be 'address'")
+		return errors.New("unexpected header format in balances.csv, first column should be 'address'")
 	}
 
 	// Map to store balances by address
@@ -233,7 +235,7 @@ func processBalances(ipfsDir string, data *GenesisData) error {
 	return nil
 }
 
-// Process supply.csv
+// Process supply.csv.
 func processSupply(ipfsDir string, data *GenesisData) error {
 	filePath := filepath.Join(ipfsDir, "supply.csv")
 
@@ -255,7 +257,7 @@ func processSupply(ipfsDir string, data *GenesisData) error {
 
 	// Expected header: denom,amount
 	if len(header) < 2 || header[0] != "denom" || header[1] != "amount" {
-		return fmt.Errorf("unexpected header format in supply.csv, expected: denom,amount")
+		return errors.New("unexpected header format in supply.csv, expected: denom,amount")
 	}
 
 	// Process rows
@@ -287,7 +289,7 @@ func processSupply(ipfsDir string, data *GenesisData) error {
 	return nil
 }
 
-// Process kaway_bond.csv
+// Process kaway_bond.csv.
 func processKawayBond(ipfsDir string, data *GenesisData) error {
 	filePath := filepath.Join(ipfsDir, "kaway_bond.csv")
 
@@ -309,7 +311,7 @@ func processKawayBond(ipfsDir string, data *GenesisData) error {
 
 	// Expected header: address,uwu
 	if len(header) < 2 || header[0] != "address" || header[1] != "uwu" {
-		return fmt.Errorf("unexpected header format in kaway_bond.csv, expected: address,uwu")
+		return errors.New("unexpected header format in kaway_bond.csv, expected: address,uwu")
 	}
 
 	// Map to track addresses that already have accounts
@@ -378,7 +380,7 @@ func processKawayBond(ipfsDir string, data *GenesisData) error {
 	return nil
 }
 
-// Process uwuval_bond.csv - similar to kaway_bond.csv
+// Process uwuval_bond.csv - similar to kaway_bond.csv.
 func processUwuvalBond(ipfsDir string, data *GenesisData) error {
 	filePath := filepath.Join(ipfsDir, "uwuval_bond.csv")
 
@@ -400,7 +402,7 @@ func processUwuvalBond(ipfsDir string, data *GenesisData) error {
 
 	// Expected header: address,uwu or similar
 	if len(header) < 2 || header[0] != "address" {
-		return fmt.Errorf("unexpected header format in uwuval_bond.csv, expected: address,amount")
+		return errors.New("unexpected header format in uwuval_bond.csv, expected: address,amount")
 	}
 
 	// Map to track addresses that already have accounts
@@ -469,7 +471,7 @@ func processUwuvalBond(ipfsDir string, data *GenesisData) error {
 	return nil
 }
 
-// Process pool_bals.csv and lp_bals.csv
+// Process pool_bals.csv and lp_bals.csv.
 func processLPs(ipfsDir string, data *GenesisData) error {
 	// This is a simplified implementation
 	// In a real-world scenario, you would need to process LP-related data
@@ -500,7 +502,7 @@ func processLPs(ipfsDir string, data *GenesisData) error {
 	return nil
 }
 
-// Generate the final genesis.json file
+// Generate the final genesis.json file.
 func generateGenesisJSON(data *GenesisData, chainID string) error {
 	// Create codec for encoding
 	cdc := codec.NewLegacyAmino()
@@ -578,7 +580,7 @@ func generateGenesisJSON(data *GenesisData, chainID string) error {
 	}
 
 	// Write to file
-	err = os.WriteFile("genesis.json", genesisBz, 0644)
+	err = os.WriteFile("genesis.json", genesisBz, 0o644)
 	if err != nil {
 		return fmt.Errorf("failed to write genesis file: %v", err)
 	}

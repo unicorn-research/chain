@@ -638,8 +638,6 @@ cosmossdk.io/tools/confix v0.1.3-0.20250506131703-74993f0a47e5 h1:/c8QxhuGbabmDb
 cosmossdk.io/tools/confix v0.1.3-0.20250506131703-74993f0a47e5/go.mod h1:GlU2Voz6kIaO8jXW0CwzVCxdZzyEYzGEaiqqNZ7XvNQ=
 cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5 h1:HBuHIfYMiI04Qup+aZMo9FAPSjpBZA6opeCuKRBGafA=
 cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5/go.mod h1:CTXKurMCPgwbKoK9bQN3j9SEcfs5vXAvfB05UvB6Iu0=
-cosmossdk.io/x/upgrade v0.2.0-rc.2.0.20250506131703-74993f0a47e5 h1:z0wvI3BPGcRM+7FMA0Oh4ToX4eUgdkij2+K55AGKWrg=
-cosmossdk.io/x/upgrade v0.2.0-rc.2.0.20250506131703-74993f0a47e5/go.mod h1:b+MJo5cnPMmh/0Cx/hEEC0aDb2g7lvc93gLpSxplSAQ=
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
@@ -901,8 +899,8 @@ github.com/envoyproxy/protoc-gen-validate v1.2.1 h1:DEo3O99U8j4hBFwbJfrz9VtgcDfU
 github.com/envoyproxy/protoc-gen-validate v1.2.1/go.mod h1:d/C80l/jxXLdfEIhX1W2TmLfsJ31lvEjwamM4DxlWXU=
 github.com/ethereum/go-ethereum v1.15.11 h1:JK73WKeu0WC0O1eyX+mdQAVHUV+UR1a9VB/domDngBU=
 github.com/ethereum/go-ethereum v1.15.11/go.mod h1:mf8YiHIb0GR4x4TipcvBUPxJLw1mFdmxzoDi11sDRoI=
-github.com/faddat/ibc-go/v10 v10.0.0-20250522152828-94cd83d34ac9 h1:/LWNiLyLu5WukcSNVv6QD9re54U9u8eeujWcSVOOUS4=
-github.com/faddat/ibc-go/v10 v10.0.0-20250522152828-94cd83d34ac9/go.mod h1:P1ts6AO89qcWVJkqjat0uRwKk4aSGRgFu/wGm8K3QNo=
+github.com/faddat/ibc-go/v10 v10.0.0-20250522153703-07276b01e340 h1:h3pO2Rw/zgU+5Dzvm1Nx8sNvRmUt82ByoPFzgpZPaMw=
+github.com/faddat/ibc-go/v10 v10.0.0-20250522153703-07276b01e340/go.mod h1:oNOWMUqNujk7AhNjha6If19ltjOUOIG2DfZzMiMixNQ=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
 github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=

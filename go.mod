@@ -3,7 +3,7 @@ module github.com/unicorn-research/chain
 go 1.24
 
 replace (
-	github.com/cosmos/ibc-go/v10 => github.com/faddat/ibc-go/v10 v10.0.0-20250522152828-94cd83d34ac9
+	github.com/cosmos/ibc-go/v10 => github.com/faddat/ibc-go/v10 v10.0.0-20250522153703-07276b01e340
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 )
 
@@ -40,7 +40,6 @@ require (
 	cosmossdk.io/depinject v1.2.0 // indirect
 	cosmossdk.io/errors v1.0.2 // indirect
 	cosmossdk.io/schema v1.1.0 // indirect
-	cosmossdk.io/x/upgrade v0.2.0-rc.2.0.20250506131703-74993f0a47e5 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/99designs/keyring v1.2.2 // indirect

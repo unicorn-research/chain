@@ -4,11 +4,11 @@ import (
 	"github.com/unicorn-research/chain/upgrades"
 
 	storetypes "cosmossdk.io/store/types"
-	circuittypes "github.com/cosmos/cosmos-sdk/x/circuit/types"
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
+	circuittypes "github.com/cosmos/cosmos-sdk/x/circuit/types"
 	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
 
 // registerUpgradeHandlers registers all supported upgrade handlers.
