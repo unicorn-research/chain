@@ -8,6 +8,8 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -98,9 +100,10 @@ type AppState struct {
 
 // Holds our internal processing data.
 type GenesisData struct {
-	Accounts map[string]*GenesisAccount
-	Balances map[string][]Coin
-	Supply   []Coin
+	Accounts       map[string]*GenesisAccount
+	Balances       map[string][]Coin
+	Supply         []Coin
+	AccountCounter int // Counter for assigning sequential account numbers
 }
 
 // Constant for address prefix conversion.
@@ -135,9 +138,10 @@ func run() error {
 
 	// Initialize genesis data
 	genesisData := &GenesisData{
-		Accounts: make(map[string]*GenesisAccount),
-		Balances: make(map[string][]Coin),
-		Supply:   make([]Coin, 0),
+		Accounts:       make(map[string]*GenesisAccount),
+		Balances:       make(map[string][]Coin),
+		Supply:         make([]Coin, 0),
+		AccountCounter: 0, // Initialize the account counter
 	}
 
 	// Process files
@@ -159,6 +163,7 @@ func run() error {
 	fmt.Printf("Chain ID: %s\n", chainID)
 	fmt.Println("Addresses converted from unicorn prefix to gadikian prefix")
 	fmt.Println("Token denoms converted from uwunicorn to ugadikian")
+	fmt.Printf("Total accounts created: %d\n", genesisData.AccountCounter)
 
 	return nil
 }
@@ -341,9 +346,12 @@ func processCsvRows(reader *csv.Reader, data *GenesisData, denom string) error {
 
 		// Ensure account exists
 		if _, exists := data.Accounts[address]; !exists {
+			accountNumber := data.AccountCounter
+			data.AccountCounter++
+
 			data.Accounts[address] = &GenesisAccount{
 				Address:       address,
-				AccountNumber: "0",
+				AccountNumber: fmt.Sprintf("%d", accountNumber),
 				Sequence:      "0",
 			}
 		}
@@ -408,9 +416,12 @@ func processBalanceRow(row []string, header []string, data *GenesisData) error {
 
 	// Ensure account exists
 	if _, exists := data.Accounts[address]; !exists {
+		accountNumber := data.AccountCounter
+		data.AccountCounter++
+
 		data.Accounts[address] = &GenesisAccount{
 			Address:       address,
-			AccountNumber: "0",
+			AccountNumber: fmt.Sprintf("%d", accountNumber),
 			Sequence:      "0",
 		}
 	}
@@ -531,9 +542,20 @@ func generateGenesisJSON(data *GenesisData, chainID string) error {
 	}
 
 	// Convert accounts map to slice
+	var accounts []GenesisAccount
 	for _, account := range data.Accounts {
-		authGenesis.Accounts = append(authGenesis.Accounts, *account)
+		accounts = append(accounts, *account)
 	}
+
+	// Sort accounts by account number
+	sort.Slice(accounts, func(i, j int) bool {
+		numI, _ := strconv.Atoi(accounts[i].AccountNumber)
+		numJ, _ := strconv.Atoi(accounts[j].AccountNumber)
+		return numI < numJ
+	})
+
+	// Add sorted accounts to auth genesis
+	authGenesis.Accounts = accounts
 
 	// Create bank genesis
 	bankGenesis := BankGenesis{
