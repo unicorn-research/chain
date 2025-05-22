@@ -10,9 +10,11 @@ in an approchable and minimal format.  We're also satisfying a [the spec require
 
 `Chain` is a CLI application built using the Cosmos SDK for testing and educational purposes.
 
-## Wyoming DAO Compliance
+## Wyoming DAO Compatibility
 
-Chain is designed to comply with Wyoming DAO legal requirements. The Cosmos SDK provides the foundational blockchain infrastructure that satisfies these requirements without requiring additional smart contract platforms like CosmWasm. Here's how Chain's architecture maps to the Wyoming DAO specifications:
+Chain implements a Wyoming DAO. 
+
+The Cosmos SDK provides the foundational blockchain infrastructure that satisfies these requirements without requiring additional smart contract platforms like CosmWasm. Here's how Chain's architecture maps to the Wyoming DAO specifications:
 
 ### Blockchain Requirements (W.S. 34-29-106(g)(i))
 Cosmos SDK provides a complete blockchain framework that meets Wyoming's definition of a blockchain as a "digital ledger of transactions." Chain inherits these properties:
@@ -168,6 +170,25 @@ Finally, execute this command to start your nodes:
 
 Now you have a small testnet that you can use to try out changes to the Cosmos SDK or CometBFT!
 
+
 > ⚠️ NOTE: Sometimes, creating the network through the `collect-gentxs` will fail, and validators will start in a funny state (and then panic).
 > 
 > If this happens, you can try to create and start the network first with a single validator and then add additional validators using a `create-validator` transaction.
+
+
+
+# Conclusion
+
+A good phone with:
+1) Changing hardware addresses
+2) encrypted storage
+3) anonymous data access
+
+Would be the core of a nation of sovereigns who fulfill the requirements recognized in U.S. and International law as legitimate. 
+
+Terms of service reflect the tenets of that nation. The tenets of said nation are:
+
+1) innocent until proven guilty
+2) property rights shall not be infringed upon
+3) no injured natural man or woman, no crime
+4) innocent until proven guilty
