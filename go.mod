@@ -16,7 +16,7 @@ require (
 	cosmossdk.io/tools/confix v0.2.0-rc.2
 	cosmossdk.io/x/tx v1.1.1-0.20250506131703-74993f0a47e5
 	github.com/cometbft/cometbft v1.0.1
-	github.com/cosmos/cosmos-db v1.1.1
+	github.com/cosmos/cosmos-db v1.1.2
 	github.com/cosmos/cosmos-sdk v0.53.0
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/cosmos/ibc-go/v10 v10.0.0
