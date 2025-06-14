@@ -14,7 +14,7 @@ require (
 	cosmossdk.io/log v1.6.0
 	cosmossdk.io/store v1.10.0-rc.1.0.20250506131703-74993f0a47e5
 	cosmossdk.io/tools/confix v0.2.0-rc.3
-	cosmossdk.io/x/tx v1.2.0-alpha.0
+	cosmossdk.io/x/tx v1.2.0-alpha.1
 	github.com/cometbft/cometbft v1.0.1
 	github.com/cosmos/cosmos-db v1.1.3
 	github.com/cosmos/cosmos-sdk v0.54.0-alpha.0
