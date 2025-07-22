@@ -8,9 +8,9 @@ replace (
 )
 
 require (
-	cosmossdk.io/api v1.0.0-alpha.1
+	cosmossdk.io/api v1.0.0-rc.1
 	cosmossdk.io/client/v2 v2.10.0-beta.4
-	cosmossdk.io/core v1.1.0-alpha.2
+	cosmossdk.io/core v1.1.0-rc.1
 	cosmossdk.io/log v1.6.0
 	cosmossdk.io/store v1.10.0-rc.1.0.20250506131703-74993f0a47e5
 	cosmossdk.io/tools/confix v0.2.0-rc.3
